@@ -8,4 +8,5 @@ public interface NotificationService {
     List<Notification> getAllNotifications();
     Notification getNotificationById(Long id);
     void deleteNotification(Long id);
+    Object updateNotification(Long id, Notification notification);
 }

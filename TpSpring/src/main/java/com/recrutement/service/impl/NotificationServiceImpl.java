@@ -35,4 +35,10 @@ public class NotificationServiceImpl implements NotificationService {
     public void deleteNotification(Long id) {
         notificationRepository.deleteById(id);
     }
+
+    @Override
+    public Object updateNotification(Long id, Notification notification) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateNotification'");
+    }
 }
