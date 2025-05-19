@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Postulations</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background: #f4f6fb; }
+        .container { max-width: 1000px; margin: 40px auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 24px #d0d8e8; padding: 40px 32px; }
+        h1 { color: #2c3e50; margin-bottom: 32px; text-align: center; }
+        table { border-collapse: collapse; width: 100%; background: #fff; margin-bottom: 32px; }
+        th, td { border: 1px solid #e0e6ed; padding: 14px 10px; text-align: left; }
+        th { background: #2980b9; color: #fff; font-weight: 600; }
+        tr:nth-child(even) { background: #f7fafd; }
+        tr:hover { background: #eaf1fb; }
+        .button { display: inline-block; margin: 10px 0; padding: 12px 28px; background: #2980b9; color: #fff; border-radius: 6px; text-decoration: none; font-weight: 500; transition: background 0.2s; border: none; cursor: pointer; }
+        .button:hover { background: #1a5a7a; }
+        .actions { text-align: right; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Liste des Postulations</h1>
+        <div class="actions">
+            <a th:href="@{/postulations/create}" class="button">Créer une nouvelle postulation</a>
+            <a th:href="@{/}" class="button" style="background:#888;">Retour à l'accueil</a>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Statut</th>
+                    <th>CV soumis</th>
+                    <th>Candidat</th>
+                    <th>Offre</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="postulation : ${postulations}">
+                    <td th:text="${postulation.id}"></td>
+                    <td th:text="${#dates.format(postulation.datePostulation, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td th:text="${postulation.statut}"></td>
+                    <td th:text="${postulation.cvSoumis}"></td>
+                    <td th:text="${postulation.candidat != null ? postulation.candidat.nom : ''}"></td>
+                    <td th:text="${postulation.offre != null ? postulation.offre.titre : ''}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
