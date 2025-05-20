@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDateTime;
@@ -34,6 +35,25 @@ public class PostulationWebController {
     public String createPostulation(@ModelAttribute Postulation postulation) {
         postulation.setDatePostulation(LocalDateTime.now());
         postulationService.savePostulation(postulation);
+        return "redirect:/postulations";
+    }
+
+    @GetMapping("/postulations/edit/{id}")
+    public String showEditPostulationForm(@PathVariable Long id, Model model) {
+        Postulation postulation = postulationService.getPostulationById(id);
+        model.addAttribute("postulation", postulation);
+        return "edit_postulation";
+    }
+
+    @PostMapping("/postulations/edit/{id}")
+    public String updatePostulation(@PathVariable Long id, @ModelAttribute Postulation postulation) {
+        postulationService.updatePostulation(id, postulation);
+        return "redirect:/postulations";
+    }
+
+    @GetMapping("/postulations/delete/{id}")
+    public String deletePostulation(@PathVariable Long id) {
+        postulationService.deletePostulation(id);
         return "redirect:/postulations";
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDateTime;
@@ -34,6 +35,25 @@ public class OffreWebController {
     public String createOffre(@ModelAttribute Offre offre) {
         offre.setDateCreation(LocalDateTime.now());
         offreService.saveOffre(offre);
+        return "redirect:/offres";
+    }
+
+    @GetMapping("/offres/edit/{id}")
+    public String showEditOffreForm(@PathVariable Long id, Model model) {
+        Offre offre = offreService.getOffreById(id);
+        model.addAttribute("offre", offre);
+        return "edit_offre";
+    }
+
+    @PostMapping("/offres/edit/{id}")
+    public String updateOffre(@PathVariable Long id, @ModelAttribute Offre offre) {
+        offreService.updateOffre(id, offre);
+        return "redirect:/offres";
+    }
+
+    @GetMapping("/offres/delete/{id}")
+    public String deleteOffre(@PathVariable Long id) {
+        offreService.deleteOffre(id);
         return "redirect:/offres";
     }
 }

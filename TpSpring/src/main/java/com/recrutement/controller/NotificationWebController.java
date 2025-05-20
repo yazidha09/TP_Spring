@@ -6,7 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 
@@ -35,5 +37,34 @@ public class NotificationWebController {
         notification.setDateEnvoi(LocalDateTime.now());
         notificationService.saveNotification(notification);
         return "redirect:/notifications";
+    }
+
+    @GetMapping("/notifications/edit/{id}")
+    public String showEditNotificationForm(@PathVariable Long id, Model model) {
+        Notification notification = notificationService.getNotificationById(id);
+        model.addAttribute("notification", notification);
+        return "edit_notification";
+    }
+
+    @PostMapping("/notifications/edit/{id}")
+    public String updateNotification(@PathVariable Long id, @ModelAttribute Notification notification) {
+        notificationService.updateNotification(id, notification);
+        return "redirect:/notifications";
+    }
+
+    @GetMapping("/notifications/delete/{id}")
+    public String deleteNotification(@PathVariable Long id) {
+        notificationService.deleteNotification(id);
+        return "redirect:/notifications";
+    }
+
+    @GetMapping("/notifications/edit")
+    public String redirectEditNotificationById(@RequestParam Long id) {
+        return "redirect:/notifications/edit/" + id;
+    }
+
+    @GetMapping("/notifications/delete")
+    public String redirectDeleteNotificationById(@RequestParam Long id) {
+        return "redirect:/notifications/delete/" + id;
     }
 }
